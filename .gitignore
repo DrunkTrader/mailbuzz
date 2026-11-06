@@ -1,0 +1,11 @@
+/target
+.env
+.env.local
+
+sent_log.txt
+scheduled_jobs.json
+send.lock
+resume/
+reference/
+*.csv
+graphify-out/
