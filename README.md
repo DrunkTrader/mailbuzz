@@ -262,6 +262,17 @@ Both can use `{{Company}}` and `{{Greeting}}` ("Hi Priya" or just "Hi"). The HTM
 
 A campaign holds the send lock for its whole run (about 25 seconds per email), so `/send-batch` requests and scheduled jobs wait until it finishes.
 
+**Running it every day:** `daily.sh` adds a cron job that runs the campaign on one CSV at a fixed time. Because reruns skip anyone already emailed, each day continues where the daily limit stopped the day before. Build first (`cargo build --release`), since cron runs `target/release/send_campaign`. Output goes to `daily.log`.
+
+```bash
+./daily.sh 09:00 job_list/leads.csv   # every day at 9 AM
+./daily.sh 10:30                      # change the time, keep the CSV
+./daily.sh                            # show the schedule
+./daily.sh off                        # stop
+```
+
+Times are in India time (`Asia/Kolkata`). For another zone, set `MAILBUZZ_TZ`, e.g. `MAILBUZZ_TZ=Europe/London ./daily.sh 09:00 leads.csv`.
+
 ### Validate an Email
 
 **GET** `/validate-email?email=<address>`
